@@ -1,0 +1,22 @@
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+      - DOCKER_MODS=linuxserver/mods:jellyfin-opencl-intel
+    volumes:
+      - ./config:/config
+      - ${TVSHOWS_FOLDER}:/data/tvshows
+      - ${ANIMES_FOLDER}:/data/animes
+      - ${MOVIES_FOLDER}:/data/movies
+    ports:
+      - ${JELLYFIN_HTTP_PORT:-8096}:8096
+      - ${JELLYFIN_HTTPS_PORT:-8920}:8920 #optional
+      - ${JELLYFIN_DISCOVER_PORT:-7359}:7359/udp #optional
+      - ${JELLYFIN_DLNA_SERVICE_PORT:-1900}:1900/udp #optional
+    devices:
+      - /dev/dri:/dev/dri
+    restart: unless-stopped
