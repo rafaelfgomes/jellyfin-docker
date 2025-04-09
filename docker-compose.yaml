@@ -22,3 +22,9 @@ services:
     group_add:
       - "${RENDER_GID}"
     restart: unless-stopped
+    networks:
+      - net
+
+networks:
+  net:
+    external: false
