@@ -19,4 +19,6 @@ services:
       - ${JELLYFIN_DLNA_SERVICE_PORT:-1900}:1900/udp #optional
     devices:
       - /dev/dri:/dev/dri
+    group_add:
+      - "${RENDER_GID}"
     restart: unless-stopped
