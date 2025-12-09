@@ -3,8 +3,13 @@ services:
     image: jellyfin/jellyfin
     container_name: jellyfin
     hostname: jellyfin
+    environment:
+      - LANG=${LANG:-en_US.UTF-8}
+      - LANGUAGE=${LANGUAGE:-en_US:en}
+      - LC_ALL=${LANG:-en_US.UTF-8}
     volumes:
       - config:/config
+      - cache:/cache
       - /usr/share/fonts:/usr/local/share/fonts/custom
       - ${TVSHOWS_FOLDER}:/data/tvshows
       - ${ANIMES_FOLDER}:/data/animes
@@ -22,6 +27,8 @@ services:
 volumes:
   config:
     name: jellyfin-config
+  cache:
+    name: jellyfin-cache
 
 networks:
   net:
