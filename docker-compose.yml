@@ -9,7 +9,6 @@ services:
     environment:
       - LANG=${LANG:-en_US.UTF-8}
       - LANGUAGE=${LANGUAGE:-en_US:en}
-      - LC_ALL=${LANG:-en_US.UTF-8}
     volumes:
       - ${JELLYFIN_CONFIG_FOLDER:-./config}:/config
       - ${JELLYFIN_CACHE_FOLDER:-./cache}:/cache
