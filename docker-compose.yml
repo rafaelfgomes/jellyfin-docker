@@ -3,6 +3,8 @@ services:
     image: jellyfin/jellyfin
     container_name: jellyfin
     hostname: jellyfin
+    group_add:
+      - ${RENDER_GROUP_ID}
     environment:
       - LANG=${LANG:-en_US.UTF-8}
       - LANGUAGE=${LANGUAGE:-en_US:en}
