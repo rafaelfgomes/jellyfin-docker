@@ -3,11 +3,11 @@ services:
     image: jellyfin/jellyfin
     container_name: jellyfin
     hostname: jellyfin
+    user: ${UID:-1000}:${GID:-1000}
     group_add:
-      - ${RENDER_GROUP_ID}
+      - '${RENDER_GROUP_ID}'
     environment:
-      - LANG=${LANG:-en_US.UTF-8}
-      - LANGUAGE=${LANGUAGE:-en_US:en}
+      - JELLYFIN_PublishedServerUrl=${EXTERNAL_URL}
     volumes:
       - ${JELLYFIN_CONFIG_FOLDER:-./config}:/config
       - ${JELLYFIN_CACHE_FOLDER:-./cache}:/cache
@@ -16,7 +16,7 @@ services:
       - ${ANIMES_FOLDER}:/data/animes:ro
       - ${MOVIES_FOLDER}:/data/movies:ro
     devices:
-      - /dev/dri:/dev/dri
+      - /dev/dri/renderD128:/dev/dri/renderD128
     restart: unless-stopped
     networks:
       external:
