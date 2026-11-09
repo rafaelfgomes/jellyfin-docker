@@ -1,0 +1,35 @@
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin
+    container_name: jellyfin
+    hostname: jellyfin
+    environment:
+      - PUID=${UID:-1000}
+      - PGID=${GID:-1000}
+      - TZ=${TIMEZONE:-Etc/UTC}
+      - JELLYFIN_PublishedServerUrl=${PUBLISHED_SERVER_URL:-http://127.0.0.1:8096}
+      - DOCKER_MODS=linuxserver/mods:jellyfin-opencl-intel
+    volumes:
+      - ${JELLYFIN_CONFIG_FOLDER:-./config}:/config
+      - /usr/share/fonts:/usr/local/share/fonts/custom
+      - ${TVSHOWS_FOLDER}:/data/tvshows:ro
+      - ${ANIMES_FOLDER}:/data/animes:ro
+      - ${MOVIES_FOLDER}:/data/movies:ro
+    ports:
+      - ${JELLYFIN_PORT:-8096}:8096
+      - 8920:8920 #optional
+      - 7359:7359/udp #optional
+      - 1900:1900/udp #optional
+    devices:
+      - /dev/dri:/dev/dri
+    restart: unless-stopped
+    networks:
+      local:
+        ipv4_address: 172.${SUBNET_NUMBER:-20}.0.2
+
+networks:
+  local:
+    name: jellyfin-local-network
+    ipam:
+      config:
+        - subnet: 172.${SUBNET_NUMBER:-20}.0.0/16
